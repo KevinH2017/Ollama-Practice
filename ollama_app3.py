@@ -3,7 +3,7 @@ import ollama, os
 
 model = "llava:7b"
 
-output_file = "./data/decoded_img3.txt"
+output_file = "./data/multiple_decoded_imgs.txt"
 open_file = open(output_file, "w")
 
 prompt = """
@@ -26,7 +26,7 @@ for i in os.listdir(input_dir):
             generated_text = response.get("response", "")
             print(generated_text)
 
-            open_file.write("Describing" + i + ":\n" + generated_text.strip() + "\n\n")
+            open_file.write("Describing " + i + ":\n" + generated_text.strip() + "\n\n")
 
         except Exception as e:
             print("ERROR:", str(e))
