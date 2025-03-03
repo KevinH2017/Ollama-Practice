@@ -22,12 +22,12 @@ VECTOR_STORE = "simple-rag"
 def doc_loader(doc_path):
     """Loads and returns document for processing"""
     if os.path.exists(doc_path):
-        logging.info("Loading...")
+        logging.info("Loading document...")
         loader = PyPDFLoader(file_path=doc_path)
         data = loader.load_and_split()
         return data
     else:
-        logging.error("PDF Upload Failed")
+        logging.error("Document Upload Failed")
         return None
 
 
