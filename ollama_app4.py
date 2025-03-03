@@ -19,11 +19,13 @@ VECTOR_STORE = "simple-rag"
 def doc_loader(doc_path):
     """Loads and returns document for processing"""
     if os.path.exists(doc_path):
+        print("Loading...")
         logging.info("Loading...")
         loader = PyPDFLoader(file_path=doc_path)
         data = loader.load_and_split()
         return data
     else:
+        print("PDF Upload Failed")
         logging.error("PDF Upload Failed")
         return None
 
@@ -32,6 +34,7 @@ def split_chunk_doc(doc):
     """Splits document into chunks and returns them"""
     text_splitter = RecursiveCharacterTextSplitter(chunk_size=1200, chunk_overlap=300)
     chunks = text_splitter.split_documents(doc)
+    print("Splitting completed!")
     logging.info("Splitting completed!")
     return chunks
 
@@ -44,6 +47,7 @@ def create_vector_db(chunks):
         embedding=OllamaEmbeddings(model=EMBEDDING),
         collection_name=VECTOR_STORE,
     )
+    print("Successfully added to Vector Database!")
     logging.info("Successfully added to Vector Database!")
     return vector_db
 
@@ -66,6 +70,7 @@ def ollama_retriever(vector_db, llm):
     retriever = MultiQueryRetriever.from_llm(
         vector_db.as_retriever(), llm, prompt=QUERY_PROMPT
     )
+    print("Query Retriever successfully created!")
     logging.info("Query Retriever successfully created!")
     return retriever
 
@@ -89,6 +94,7 @@ def create_chain(retriever, llm):
         | llm
         | StrOutputParser()
     )
+    print("RAG Chain created successfully!")
     logging.info("RAG Chain created successfully!")
     return chain
 
