@@ -48,9 +48,9 @@ def split_chunk_doc(documents):
     logging.info(f"Split {len(documents)} documents into {len(chunks)} chunks.")
     
     # Test chunk
-    document = chunks[10]
-    print(document.page_content)
-    print(document.metadata)
+    # document = chunks[10]
+    # print(document.page_content)
+    # print(document.metadata)
 
     return chunks
 
