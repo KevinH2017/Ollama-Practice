@@ -1,7 +1,7 @@
 # PDF RAG app using streamlit
 from langchain_community.document_loaders import PyPDFLoader
 from langchain_text_splitters import RecursiveCharacterTextSplitter
-from langchain_community.vectorstores import Chroma
+from langchain_chroma import Chroma
 from langchain_ollama import OllamaEmbeddings
 from langchain.prompts import ChatPromptTemplate, PromptTemplate
 from langchain_ollama import ChatOllama
@@ -14,8 +14,8 @@ import streamlit as st
 # Configure logging
 logging.basicConfig(level=logging.INFO)
 
-DOC_PATH = "./data/BOI.pdf"
-# DOC_PATH = "./data/SRT-01_Stops_Rust_Enamel_Sprays_TDS.pdf"
+# DOC_PATH = "./data/BOI.pdf"
+DOC_PATH = "./data/SRT-01_Stops_Rust_Enamel_Sprays_TDS.pdf"
 MODEL = "llama3.2"
 EMBEDDING = "nomic-embed-text"
 VECTOR_STORE = "simple-rag"
