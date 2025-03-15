@@ -1,4 +1,4 @@
-# Ollama AI Book Chatbot
+# Ollama AI Book CLI Chatbot
 from langchain_community.document_loaders import DirectoryLoader
 from langchain_ollama import OllamaEmbeddings, ChatOllama
 from langchain_text_splitters import RecursiveCharacterTextSplitter
@@ -8,7 +8,6 @@ from langchain_core.output_parsers import StrOutputParser
 from langchain_core.runnables import RunnablePassthrough
 from langchain.retrievers.multi_query import MultiQueryRetriever
 import os, logging, ollama, shutil, sys
-import argparse
 
 # Configure logging
 logging.basicConfig(level=logging.INFO)
@@ -132,26 +131,24 @@ def create_chain(retriever, llm):
     return chain
 
 def main():
-    # parser = argparse.ArgumentParser()
-    # parser.add_argument("query_text", type=str, help="The query text.")
-    # args = parser.parse_args()
-    # query_text = args.query_text
-
-    # query_text = sys.argv[1]
-
-    query_text = "When does Alice meet the Mad Hatter in the book Alice in Wonderland?"
+    # User input
+    query_text = sys.argv[1]
 
     data = doc_loader(DOC_PATH)
     if data is None:
         return
-    
+
+    # Create ollama embeddings
+    ollama.pull(EMBEDDING)
+    llm = ChatOllama(model=MODEL)
+
     vector_db = create_vector_db()
 
-    llm = ChatOllama(model=MODEL)
     retriever = ollama_retriever(vector_db, llm)
     logging.info("Creating chain...")
     chain = create_chain(retriever, llm)
     logging.info("Querying text...")
+
     # Get and print response
     res = chain.invoke(input=query_text)
     
